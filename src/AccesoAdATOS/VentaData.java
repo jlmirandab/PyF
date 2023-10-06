@@ -19,6 +19,7 @@ public class VentaData {
    
     
     Cliente c= new Cliente();
+    ClienteData cData= new ClienteData();
 
     public VentaData() {
         con = Conexion.getConexion();
@@ -47,10 +48,32 @@ public class VentaData {
 
             }
     
+    public void borrarVentaPorId(int idVenta){
+           
+           String sql= "DELETE FROM venta WHERE idVenta= ?";
+           
+        try {
+            PreparedStatement ps= con.prepareStatement(sql);
+            ps.setInt(1, idVenta);
+            int filas =ps.executeUpdate();
+            
+            if(filas==1){
+                JOptionPane.showMessageDialog(null, "Se Borro la venta");
+                
+            }
+            ps.close();
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null, "Error al acceder a la tabla venta");
+        }
+           
+           
+       }
+    
      
     public Venta buscarVentas(int id){
         Venta venta= null;
-        String sql= "SELECT idCliente, FechaVenta WHERE idVenta=? ";
+       
+        String sql= "SELECT idCliente, FechaVenta FROM venta WHERE idVenta=? ";
         PreparedStatement ps= null;
     
         
@@ -63,8 +86,10 @@ public class VentaData {
              
              venta= new Venta();
              venta.setIdVenta(id);
-             //venta.setCliente(rs.getInt("idCliente"));
+             Cliente cl= cData.buscarClientePorId(rs.getInt("idCliente"));
+             venta.setCliente(cl);
              venta.setFechaVenta(rs.getDate("fechaVenta").toLocalDate());
+             JOptionPane.showMessageDialog(null, "Se encontró la venta");
              
             }else{
                JOptionPane.showMessageDialog(null, "No se encontró la venta");
@@ -81,19 +106,21 @@ public class VentaData {
     public List<Venta> listarVentas(){
         List<Venta> ventas= new ArrayList<>();
         
-        String sql= "SELECT * FROM alumno WHERE estado=1";
+        String sql= "SELECT * FROM venta ";
         
         try {
             PreparedStatement ps= con.prepareStatement(sql);
             ResultSet rs= ps.executeQuery();
             while(rs.next()){
                 Venta venta= new Venta();
+                venta.setIdVenta(rs.getInt("idVenta"));
+                Cliente cl= cData.buscarClientePorId(rs.getInt("idCliente"));
                 
-               // venta.setCliente(rs.getInt("idCliente"));
-                venta.setFechaVenta(rs.getDate("fechaNacimiento").toLocalDate());
+                venta.setCliente(cl);
+                venta.setFechaVenta(rs.getDate("FechaVenta").toLocalDate());
                
                 ventas.add(venta);
-              
+                JOptionPane.showMessageDialog(null, venta);
             }
             
             ps.close();
@@ -105,9 +132,76 @@ public class VentaData {
         return ventas;
         
     }
-        
        
+    public List<Venta> buscarVentasPorFecha(Date FechaVenta){
+        
+        List<Venta>ventas= new ArrayList<>();
+        String sql= "SELECT * FROM venta WHERE FechaVenta=? ";
+        
+        try {
+            PreparedStatement ps= con.prepareStatement(sql);
+            ps.setDate(1, FechaVenta);
+            ResultSet rs= ps.executeQuery();
+            
+            while(rs.next()){
+                Venta venta= new Venta();
+                venta.setIdVenta(rs.getInt("idVenta"));
+                Cliente cl= cData.buscarClientePorId(rs.getInt("idCliente"));
+                
+                venta.setCliente(cl);
+                venta.setFechaVenta(rs.getDate("FechaVenta").toLocalDate());
+               
+                ventas.add(venta);
+                JOptionPane.showMessageDialog(null, venta);
+            }
+            
+            ps.close();
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo conectar a la tabla ventas"+ ex.getMessage());
+            
+        }
+        return ventas;
         
         
         
+        
+        
+    }
+      
+   public List<Venta> buscarVentasPorCliente(int idCliente){
+        
+        List<Venta>ventas= new ArrayList<>();
+        String sql= "SELECT * FROM venta WHERE idCliente=? ";
+        
+        try {
+            PreparedStatement ps= con.prepareStatement(sql);
+            ps.setInt(1, idCliente);
+            ResultSet rs= ps.executeQuery();
+            
+            while(rs.next()){
+                Venta venta= new Venta();
+                venta.setIdVenta(rs.getInt("idVenta"));
+                Cliente cl= cData.buscarClientePorId(rs.getInt("idCliente"));
+                
+                venta.setCliente(cl);
+                venta.setFechaVenta(rs.getDate("FechaVenta").toLocalDate());
+               
+                ventas.add(venta);
+                JOptionPane.showMessageDialog(null, venta);
+            }
+            
+            ps.close();
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo conectar a la tabla ventas"+ ex.getMessage());
+            
+        }
+        return ventas;
+        
+        
+        
+        
+        
+    }
     }

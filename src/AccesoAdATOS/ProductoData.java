@@ -128,6 +128,8 @@ public class ProductoData {
         
     }
      
+     //list
+     
      public void modificarProducto(Producto producto){
         
         String sql= "UPDATE producto SET nombreProducto= ?, descripcion = ?, precioActual =?, stock = ? WHERE idProducto=? ";

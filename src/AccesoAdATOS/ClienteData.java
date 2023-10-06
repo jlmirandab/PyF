@@ -66,7 +66,7 @@ public class ClienteData {
              cliente.setNombre(rs.getString("nombre"));
              cliente.setTelefono(rs.getString("telefono"));
              cliente.setDomilicio(rs.getString("domicilio")); 
-             JOptionPane.showMessageDialog(null, "Se encontro el alumno");
+             JOptionPane.showMessageDialog(null, "Se encontro el Cliente");
                
             }else{
                JOptionPane.showMessageDialog(null, "No se encontró el cliente");

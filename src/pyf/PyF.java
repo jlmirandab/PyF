@@ -8,7 +8,9 @@ import Entidades.Cliente;
 import Entidades.Producto;
 import Entidades.Venta;
 import java.sql.Connection;
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.Month;
 
 public class PyF {
 
@@ -27,23 +29,43 @@ public class PyF {
         //pdata.modificarProducto(prod2);
           //pdata.buscarProductoPorId(1);
          //pdata.guardarProducto(prod2);
-         Cliente cliente1=new Cliente(1,"Miranda Bazualdo", "Jorge Luis", "115648923", "CABA",true);
-         Cliente cliente2=new Cliente("Fernandez", "Marcelo", "114897623", "CABA", true);
+         Cliente cliente1=new Cliente(5,"Miranda Bazualdo", "Jorge Luis", "115648923", "CABA",true);
+         Cliente cliente2=new Cliente(1,"Fernandez", "Marcelo", "114897623", "CABA", true);
          Cliente cliente3=new Cliente(6,"Suarez", "Micael", "115987636", "CABA", true);
-         //cData.guardarCliente(cliente3);
+         Cliente cliente4= new Cliente(3, "Cabral", "Josefina", "3513347562","CABA", true);
+        //cData.guardarCliente(cliente3);
          //cData.buscarClientePorId(1);
          //cData.modificarCliente(cliente1);
          //cData.eliminarClienteporId(1);
         // cData.listarClientes();
          
          Venta venta1= new Venta(cliente1, LocalDate.now());
-         Venta venta2=new Venta(cliente3, LocalDate.now());
-         
+         Venta venta2=new Venta(cliente3, LocalDate.of(2015, Month.MARCH, 10));
+         Venta venta3= new Venta(cliente2, LocalDate.of(2015, Month.MARCH, 10));
          
          VentaData vData= new VentaData();
          
-         vData.guardarVenta(venta2);
-        
+       // vData.guardarVenta(venta2);
+        //vData.borrarVentaPorId(2);
+        //vData.buscarVentas(8);
+       // System.out.println(vData.listarVentas());
+       
+//         for (Venta venta : vData.buscarVentasPorFecha(Date.valueOf(LocalDate.of(2015, Month.MARCH, 10))) ){
+//            
+//            System.out.println("id venta: " + venta.getIdVenta());
+//            System.out.println("Cliente: " + venta.getCliente());
+//            System.out.println("Fecha: " + venta.getFechaVenta());
+//        
+//        
+//         }
+         for(Venta venta: vData.buscarVentasPorCliente(1)){
+             System.out.println("id venta: " + venta.getIdVenta());
+             System.out.println("Cliente: " + venta.getCliente());
+             System.out.println("Fecha: " + venta.getFechaVenta());
+             
+             
+         }
+         
     }
     
 }
